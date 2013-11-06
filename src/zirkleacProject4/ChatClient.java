@@ -49,6 +49,22 @@ class ChatClientCon extends Thread {
 					breaker= true;
 					break;
 				}
+				if(connector.equalsIgnoreCase("remove")){
+					try {
+					Socket home = new Socket("127.0.0.1", ChatServer.SERVERPORT);
+
+					DataInputStream dis = new DataInputStream(
+							home.getInputStream());
+					DataOutputStream dos = new DataOutputStream(
+							home.getOutputStream());
+
+					dos.writeInt(2);
+					dos.writeUTF(this.name);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else{
 				try {
 					Socket home = new Socket("127.0.0.1", ChatServer.SERVERPORT);
 
@@ -70,11 +86,13 @@ class ChatClientCon extends Thread {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				}
+				}
 
 			}
 
+		
 		}
-	}
 }
 /**
  * ChatClient
@@ -118,6 +136,7 @@ public class ChatClient {
 			for (int i = 0; i < clientConnections.size(); i++) {
 				clientConnections.get(i).closeTheConnection();
 			}
+			clientCon.close();
 
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

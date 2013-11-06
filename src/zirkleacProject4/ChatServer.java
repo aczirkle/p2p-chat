@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ChatServerListener
  * @author Andrew Zirkle
  * A thread which, based on the command received adds someone to the list, returns a ip and port number of a requested username
- * or returns a username not found message
+ * or returns a username not found message, or removes from the list
  */
 class ChatServerListener extends Thread{
 		
@@ -52,7 +52,9 @@ private ConcurrentHashMap<String, InetSocketAddress> clientMap;
 				dos.writeUTF("Sorry we can't find it");
 		}
 		else if(cse==2){
-			//TODO If there is another case needed to be added. it would go here.
+			String n=dis.readUTF();
+			clientMap.remove(n);
+			System.out.println(n+" was removed");
 		}
 		
 		dos.close();
